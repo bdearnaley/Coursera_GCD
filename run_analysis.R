@@ -52,7 +52,9 @@ colnames(X_test)<-features[,2]
 colnames(X_train)<-features[,2]
 
 ##Extract only the Mean or StdDev values from the features
-
+cols<-grep('std|mean',features$V2,ignore.case=TRUE)
+X_test<-X_test[cols]
+X_train<-X_train[cols]
 
 ##Combine the Test data
 test_data<-cbind(subject_test,Y_test,X_test)
@@ -63,26 +65,3 @@ train_data<-cbind(subject_train,Y_train,X_train)
 ##Combine the Test and Train data
 tidy_data<-rbind(train_data,test_data)
 
-##Code snippets to be utilised
-
-##Inspecting the data
-dim(subject_test)
-dim(X_test)
-dim(Y_test)
-dim(subject_train)
-dim(X_train)
-dim(Y_train)
-
-## Adding the Column names from the features.txt file
-colnames(X_test)<-features[,2]
-colnames(subject_test)<-"Subject_ID"
-
-##Extracting only the mean values (need to add the StdDev also)
-mean_cols<-grep('mean',features$V2,ignore.case=TRUE)
-stddev_cols<-grep('std',features$V2,ignore.case=TRUE)
-cols<-grep('std|mean',features$V2,ignore.case=TRUE)
-
-##Scalable way of adding Activity Labels (doesn't quite work)
-for (i in 1:nrow(activity_labels)){
-  Y_test$Activity[Y_test$Activity==i]<-activity_labels$V2[activity_labels$V1==i]
-}
